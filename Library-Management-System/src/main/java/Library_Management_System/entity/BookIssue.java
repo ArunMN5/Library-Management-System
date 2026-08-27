@@ -3,6 +3,7 @@ package Library_Management_System.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -24,6 +25,8 @@ public class BookIssue {
     private Date issueDate;
     private Date dueDate;
     private String status;
+
+    private LocalDate returnDate;
 
 
 

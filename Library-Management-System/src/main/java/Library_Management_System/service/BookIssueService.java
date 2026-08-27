@@ -19,4 +19,6 @@ public interface BookIssueService {
     List<BookIssueResponse> getIssuesByBook(Long bookId);
 
 
+    //return details
+    Response returnBook(Long issueId);
 }
