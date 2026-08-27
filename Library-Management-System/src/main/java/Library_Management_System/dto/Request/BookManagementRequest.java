@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BookManagementRequest {
 
-    private Long id;
+    //private Long id;
     private String title;
     private String author;
     private String categoryName;

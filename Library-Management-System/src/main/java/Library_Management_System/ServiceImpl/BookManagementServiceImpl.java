@@ -24,7 +24,7 @@ public class BookManagementServiceImpl implements BookManagementService {
 
         BookManagement bookManagement = new BookManagement();
 
-        bookManagement.setId(bookManagementRequest.getId());
+       // bookManagement.setId(bookManagementRequest.getId());
         bookManagement.setTitle(bookManagementRequest.getTitle());
         bookManagement.setAuthor(bookManagementRequest.getAuthor());
         bookManagement.setPrice(bookManagementRequest.getPrice());
