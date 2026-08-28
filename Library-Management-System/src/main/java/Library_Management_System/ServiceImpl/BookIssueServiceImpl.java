@@ -96,10 +96,12 @@ public class BookIssueServiceImpl implements BookIssueService {
 
             BookIssueResponse bookIssueResponse = new BookIssueResponse();
 
+            bookIssueResponse.setIssueId(bookIssue.getId());
             bookIssueResponse.setBookId(bookIssue.getBook().getId());
             bookIssueResponse.setMemberId(bookIssue.getMember().getId());
             bookIssueResponse.setIssueDate(bookIssue.getIssueDate());
             bookIssueResponse.setDueDate(bookIssue.getDueDate());
+            bookIssueResponse.setReturnDate(bookIssue.getReturnDate());
             bookIssueResponse.setStatus(bookIssue.getStatus());
 
             bookIssueResponseList.add(bookIssueResponse);
@@ -113,28 +115,46 @@ public class BookIssueServiceImpl implements BookIssueService {
     @Override
     public List<BookIssueResponse> getIssuesByMember(Long memberId) {
 
-        List<BookIssue> bookIssues = (List<BookIssue>) bookIssueRepository.findByMemberId(memberId);
+        List<BookIssue> bookIssues = bookIssueRepository.findByMemberId(memberId);
         List<BookIssueResponse> bookIssueResponseList = new ArrayList<>();
 
         for (BookIssue bookIssue : bookIssues) {
 
             BookIssueResponse bookIssueResponse = new BookIssueResponse();
 
+            bookIssueResponse.setIssueId(bookIssue.getId());
             bookIssueResponse.setBookId(bookIssue.getBook().getId());
             bookIssueResponse.setMemberId(bookIssue.getMember().getId());
             bookIssueResponse.setIssueDate(bookIssue.getIssueDate());
             bookIssueResponse.setDueDate(bookIssue.getDueDate());
             bookIssueResponse.setStatus(bookIssue.getStatus());
             bookIssueResponse.setReturnDate(bookIssue.getReturnDate());
-            bookIssueResponseList.add(bookIssueResponse);
 
+            bookIssueResponseList.add(bookIssueResponse);
         }
         return bookIssueResponseList;
     }
 
     @Override
     public List<BookIssueResponse> getIssuesByBook(Long bookId) {
-        return List.of();
+
+        List<BookIssue> bookIssues = bookIssueRepository.findByBookId(bookId);
+        List<BookIssueResponse> bookIssueResponseList = new ArrayList<>();
+
+        for (BookIssue bookIssue : bookIssues) {
+
+            BookIssueResponse bookIssueResponse = new BookIssueResponse();
+
+            bookIssueResponse.setIssueId(bookIssue.getId());
+            bookIssueResponse.setBookId(bookIssue.getBook().getId());
+            bookIssueResponse.setMemberId(bookIssue.getMember().getId());
+            bookIssueResponse.setIssueDate(bookIssue.getIssueDate());
+            bookIssueResponse.setDueDate(bookIssue.getDueDate());
+            bookIssueResponse.setReturnDate(bookIssue.getReturnDate());
+
+            bookIssueResponseList.add(bookIssueResponse);
+        }
+        return bookIssueResponseList;
     }
 
     @Override

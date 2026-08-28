@@ -14,5 +14,5 @@ public interface BookIssueRepository extends CrudRepository<BookIssue, Long> {
 
     List<BookIssue> findByBookId(Long bookId);
 
-    Response findByMemberId(Long memberId);
+    List<BookIssue> findByMemberId(Long memberId);
 }
