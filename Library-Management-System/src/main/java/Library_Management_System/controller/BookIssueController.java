@@ -28,16 +28,26 @@ public class BookIssueController {
     public ResponseEntity<List<BookIssueResponse>> getIssueById(@PathVariable Long issueId) {
 
         Response response = bookIssueService.getIssueById(issueId);
-
         return new ResponseEntity(response, HttpStatus.OK);
+    }
 
+    @GetMapping("getAllIssues")
+    public ResponseEntity<List<BookIssueResponse>> getAllIssue() {
+        List<BookIssueResponse> response = bookIssueService.getAllIssues();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("getIssuesByMemberId/{memberId}")
+    public ResponseEntity<List<BookIssueResponse>> getIssuesByMemberId(@PathVariable Long memberId) {
+        List<BookIssueResponse> response = bookIssueService.getIssuesByMember(memberId);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("retunrIssuedBook/{issueId}")
-    public ResponseEntity<Response> returnBook(@PathVariable  Long issueId) { // ,@RequestBody BookIssueRequest request
+    public ResponseEntity<Response> returnBook(@PathVariable Long issueId) { // ,@RequestBody BookIssueRequest request
 
         Response response = bookIssueService.returnBook(issueId);
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

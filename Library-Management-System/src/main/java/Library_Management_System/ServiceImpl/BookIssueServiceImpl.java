@@ -16,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,14 +64,14 @@ public class BookIssueServiceImpl implements BookIssueService {
         response.setDueDate(savedIssue.getDueDate());
         response.setStatus(savedIssue.getStatus());
 
-        return new Response("book issused successfully",true, HttpStatus.CREATED, response);
+        return new Response("book issused successfully", true, HttpStatus.CREATED, response);
     }
 
     @Override
     public Response getIssueById(Long issueId) {
 
         BookIssue bookIssue = bookIssueRepository.findById(issueId).orElseThrow(() ->
-                        new BookIssueNotFoundException("Book issue not found with id: " + issueId));
+                new BookIssueNotFoundException("Book issue not found with id: " + issueId));
 
         BookIssueResponse response = new BookIssueResponse();
 
@@ -80,20 +80,56 @@ public class BookIssueServiceImpl implements BookIssueService {
         response.setMemberId(bookIssue.getMember().getId());
         response.setIssueDate(bookIssue.getIssueDate());
         response.setDueDate(bookIssue.getDueDate());
+        response.setReturnDate(bookIssue.getReturnDate());
         response.setStatus(bookIssue.getStatus());
 
-        return new Response("books fetched successfully",true, HttpStatus.OK, response);
+        return new Response("books fetched successfully", true, HttpStatus.OK, response);
     }
 
     @Override
     public List<BookIssueResponse> getAllIssues() {
 
-        return List.of();
+        List<BookIssue> bookIssueResponses = (List<BookIssue>) bookIssueRepository.findAll();
+        List<BookIssueResponse> bookIssueResponseList = new ArrayList<>();
+
+        for (BookIssue bookIssue : bookIssueResponses) {
+
+            BookIssueResponse bookIssueResponse = new BookIssueResponse();
+
+            bookIssueResponse.setBookId(bookIssue.getBook().getId());
+            bookIssueResponse.setMemberId(bookIssue.getMember().getId());
+            bookIssueResponse.setIssueDate(bookIssue.getIssueDate());
+            bookIssueResponse.setDueDate(bookIssue.getDueDate());
+            bookIssueResponse.setStatus(bookIssue.getStatus());
+
+            bookIssueResponseList.add(bookIssueResponse);
+
+        }
+        return bookIssueResponseList;
+        // return new Response("fetched all issued details",true,HttpStatus.OK,bookIssueResponseList);
+
     }
 
     @Override
     public List<BookIssueResponse> getIssuesByMember(Long memberId) {
-        return List.of();
+
+        List<BookIssue> bookIssues = (List<BookIssue>) bookIssueRepository.findByMemberId(memberId);
+        List<BookIssueResponse> bookIssueResponseList = new ArrayList<>();
+
+        for (BookIssue bookIssue : bookIssues) {
+
+            BookIssueResponse bookIssueResponse = new BookIssueResponse();
+
+            bookIssueResponse.setBookId(bookIssue.getBook().getId());
+            bookIssueResponse.setMemberId(bookIssue.getMember().getId());
+            bookIssueResponse.setIssueDate(bookIssue.getIssueDate());
+            bookIssueResponse.setDueDate(bookIssue.getDueDate());
+            bookIssueResponse.setStatus(bookIssue.getStatus());
+            bookIssueResponse.setReturnDate(bookIssue.getReturnDate());
+            bookIssueResponseList.add(bookIssueResponse);
+
+        }
+        return bookIssueResponseList;
     }
 
     @Override
@@ -104,8 +140,8 @@ public class BookIssueServiceImpl implements BookIssueService {
     @Override
     public Response returnBook(Long issueId) {
 
-        BookIssue  bookIssue =   bookIssueRepository.findById(issueId)
-                .orElseThrow(()-> new BookIssueNotFoundException("Book issue not found"));
+        BookIssue bookIssue = bookIssueRepository.findById(issueId)
+                .orElseThrow(() -> new BookIssueNotFoundException("Book issue not found"));
 
         if ("RETURNED".equals(bookIssue.getStatus())) {
             throw new BookAlreadyIssuedException("Book is already returned");
@@ -114,18 +150,18 @@ public class BookIssueServiceImpl implements BookIssueService {
         bookIssue.setReturnDate(LocalDate.now());
         bookIssue.setStatus("Returned");
 
-       BookIssue saved = bookIssueRepository.save(bookIssue);
+        BookIssue saved = bookIssueRepository.save(bookIssue);
 
-       BookIssueResponse response = new BookIssueResponse();
-       response.setIssueId(saved.getId());
-       response.setBookId(saved.getBook().getId());
-       response.setMemberId(saved.getMember().getId());
-       response.setIssueDate(saved.getIssueDate());
-       response.setDueDate(saved.getDueDate());
-       response.setReturnDate(saved.getReturnDate());
-       response.setStatus(saved.getStatus());
+        BookIssueResponse response = new BookIssueResponse();
+        response.setIssueId(saved.getId());
+        response.setBookId(saved.getBook().getId());
+        response.setMemberId(saved.getMember().getId());
+        response.setIssueDate(saved.getIssueDate());
+        response.setDueDate(saved.getDueDate());
+        response.setReturnDate(saved.getReturnDate());
+        response.setStatus(saved.getStatus());
 
 
-        return new Response("book returned successfully",true, HttpStatus.OK, response);
+        return new Response("book returned successfully", true, HttpStatus.OK, response);
     }
 }
