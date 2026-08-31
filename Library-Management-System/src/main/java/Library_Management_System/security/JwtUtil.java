@@ -10,27 +10,50 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-import static javax.crypto.Cipher.SECRET_KEY;
-
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "VGhpc0lzQVNlY3VyZVNlY3JldEtleUZvckxpYnJhcnlNYW5hZ2VtZW50U3lzdGVt";
+    private static final String SECRET_KEY =
+            "VGhpc0lzQVNlY3VyZVNlY3JldEtleUZvckxpYnJhcnlNYW5hZ2VtZW50U3lzdGVt";
 
     private final SecretKey key;
 
     public JwtUtil() {
         this.key = Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(SECRET_KEY));
+                Decoders.BASE64.decode(SECRET_KEY)
+        );
     }
 
-    public String generateToken(String username) {
-        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)).signWith(key, SignatureAlgorithm.HS256).compact();
+//    public String generateToken(String username) {
+//
+//        return Jwts.builder()
+//                .subject(username)
+//                .issuedAt(new Date())
+//                .expiration(
+//                        new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+//                .signWith(key, SignatureAlgorithm.HS256)
+//                .compact();
+//    }
+
+    public String generateToken(String username, String role) {
+
+        return Jwts.builder()
+                .subject(username)
+                .claim("role", role)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
 
         return getClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        Claims claims = getClaims(token);
+        return claims.get("role", String.class);
     }
 
     public boolean validateToken(String token) {
@@ -38,6 +61,7 @@ public class JwtUtil {
         try {
             getClaims(token);
             return true;
+
         } catch (Exception e) {
             return false;
         }
@@ -51,5 +75,4 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
 }

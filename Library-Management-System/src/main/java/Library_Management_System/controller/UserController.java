@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -20,7 +23,7 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<Response> register(@RequestBody RegisterRequest registerRequest) {
         Response response = userService.register(registerRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("login")
