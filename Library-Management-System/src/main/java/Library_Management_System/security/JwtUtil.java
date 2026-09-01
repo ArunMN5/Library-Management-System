@@ -20,8 +20,7 @@ public class JwtUtil {
 
     public JwtUtil() {
         this.key = Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(SECRET_KEY)
-        );
+                Decoders.BASE64.decode(SECRET_KEY));
     }
 
 //    public String generateToken(String username) {
@@ -47,7 +46,6 @@ public class JwtUtil {
     }
 
     public String extractEmail(String token) {
-
         return getClaims(token).getSubject();
     }
 

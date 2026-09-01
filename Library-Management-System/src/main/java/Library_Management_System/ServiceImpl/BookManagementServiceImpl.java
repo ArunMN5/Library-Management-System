@@ -24,7 +24,7 @@ public class BookManagementServiceImpl implements BookManagementService {
 
         BookManagement bookManagement = new BookManagement();
 
-       // bookManagement.setId(bookManagementRequest.getId());
+        // bookManagement.setId(bookManagementRequest.getId());
         bookManagement.setTitle(bookManagementRequest.getTitle());
         bookManagement.setAuthor(bookManagementRequest.getAuthor());
         bookManagement.setPrice(bookManagementRequest.getPrice());
@@ -52,9 +52,27 @@ public class BookManagementServiceImpl implements BookManagementService {
     }
 
     @Override
-    public Response UpdateBook(BookManagementRequest bookManagementRequest) {
+    public Response UpdateBook(Long id,BookManagementRequest bookManagementRequest) {
 
-        return null;
+
+        BookManagement bookManagement = bookManagementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book Not Found"));
+
+        bookManagement.setTitle(bookManagementRequest.getTitle());
+        bookManagement.setAuthor(bookManagementRequest.getAuthor());
+        bookManagement.setPrice(bookManagementRequest.getPrice());
+        bookManagement.setQuantity(bookManagementRequest.getQuantity());
+        bookManagement.setCategoryName(bookManagementRequest.getCategoryName());
+
+        bookManagementRepository.save(bookManagement);
+
+        BookManagementResponse response = new BookManagementResponse();
+
+        response.setTitle(bookManagement.getTitle());
+        response.setAuthor(bookManagement.getAuthor());
+
+
+        return new Response("Book updated", true, HttpStatus.OK, response);
     }
 
     @Override

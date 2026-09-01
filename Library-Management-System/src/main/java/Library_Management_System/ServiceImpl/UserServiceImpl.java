@@ -1,5 +1,4 @@
 package Library_Management_System.ServiceImpl;
-
 import Library_Management_System.dto.Request.LoginRequest;
 import Library_Management_System.dto.Request.RegisterRequest;
 import Library_Management_System.dto.Response;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +59,6 @@ public class UserServiceImpl implements UserService {
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
 
         return new Response("Login successful", true, HttpStatus.OK, token);
+
     }
 }

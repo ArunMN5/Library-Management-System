@@ -10,7 +10,7 @@ public interface BookManagementService {
 
     Response DeleteBookById(Long id);
 
-    Response UpdateBook(BookManagementRequest bookManagementRequest);
+    Response UpdateBook(Long id,BookManagementRequest bookManagementRequest);
 
     Response GetBooksById(Long id);
 

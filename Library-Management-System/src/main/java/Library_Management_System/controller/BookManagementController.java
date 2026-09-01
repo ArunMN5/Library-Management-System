@@ -29,6 +29,12 @@ public class BookManagementController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/updateBookById/{id}")
+    public ResponseEntity<Response> UpdateBookById(@PathVariable Long id, @RequestBody BookManagementRequest bookManagementRequest) {
+        Response response = bookManagementService.UpdateBook(id, bookManagementRequest);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
     @DeleteMapping("/deleteBookById/{id}")
     public ResponseEntity<Response> DeleteBookById(@PathVariable Long id) {
 

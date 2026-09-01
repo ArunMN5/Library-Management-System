@@ -47,8 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             User user = userRepository.findByEmail(email).orElse(null);
 
@@ -56,18 +55,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 String role = user.getRole();
 
-                SimpleGrantedAuthority authority =
-                        new SimpleGrantedAuthority("ROLE_" + role);
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                user.getEmail(),
-                                null,
-                                Collections.singletonList(authority)
-                        );
+                                user.getEmail(), null,
+                                Collections.singletonList(authority));
 
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
