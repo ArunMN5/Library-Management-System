@@ -54,7 +54,6 @@ public class BookManagementServiceImpl implements BookManagementService {
     @Override
     public Response UpdateBook(Long id,BookManagementRequest bookManagementRequest) {
 
-
         BookManagement bookManagement = bookManagementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book Not Found"));
 
@@ -70,7 +69,6 @@ public class BookManagementServiceImpl implements BookManagementService {
 
         response.setTitle(bookManagement.getTitle());
         response.setAuthor(bookManagement.getAuthor());
-
 
         return new Response("Book updated", true, HttpStatus.OK, response);
     }

@@ -19,8 +19,7 @@ public class JwtUtil {
     private final SecretKey key;
 
     public JwtUtil() {
-        this.key = Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(SECRET_KEY));
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
 
 //    public String generateToken(String username) {
